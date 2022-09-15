@@ -14,15 +14,15 @@
 		FROM
 		(
 		select count(*)
-		totalCount, ceil(count(*)/3) totalPage,0 currentPage, 0
+		totalCount, ceil(count(*)/3) totalPage,
+		#{page} currentPage, 0
 		first, 0
 		last
-		FROM boards WHERE title like '%제목%'
-		) result;
+		FROM boards
 		<if test="keyword != null">
-			WHERE title CONCAT('%',#{keyword},'%')
+			WHERE title like CONCAT('%',#{keyword},'%')
 		</if>
-		)
+		) result
 	</select>
 
 	<insert id="insert">
@@ -34,8 +34,7 @@
 
 	<select id="findById"
 		resultType="site.metacoding.red.domain.boards.Boards">
-		SELECT * FROM boards
-		WHERE id=#{id}
+		SELECT * FROM boards WHERE id=#{id}
 	</select>
 
 	<select id="findAll"
@@ -47,7 +46,7 @@
 		ON
 		b.usersId = u.id
 		<if test="keyword != null">
-			WHERE title like '%'||#{keyword}||'%'
+			WHERE title like CONCAT('%',#{keyword},'%')
 		</if>
 		ORDER BY b.id DESC
 		OFFSET #{startNum} ROWS
@@ -58,8 +57,12 @@
 		UPDATE boards SET title = #{title}, content =
 		#{content} WHERE id = #{id}
 	</update>
+
 	<delete id="deleteById">
 		DELETE FROM boards WHERE id = #{id}
 	</delete>
 
 </mapper>
+
+
+
