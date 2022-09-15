@@ -44,8 +44,8 @@
          }
       }).done((res)=>{
          if(res.code == 1){
-            console.log(res);
-            //location.href = "/";
+            //console.log(res);
+            location.href = "/loginForm";
          }
       });
    });
