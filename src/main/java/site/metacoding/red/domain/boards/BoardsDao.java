@@ -9,7 +9,9 @@ import site.metacoding.red.web.dto.response.boards.PagingDto;
 public interface BoardsDao {
 	public void insert(Boards boards);
 
-	public List<MainDto> findAll(@Param("startNum") int startNum, @Param("keyword") String keyword);
+	public List<MainDto> findAll(@Param("startNum") int startNum, @Param("keyword") String keyword,  @Param("row") int row);
+
+	public PagingDto paging(@Param("page") Integer page, @Param("keyword") String keyword,  @Param("row") int row);
 
 	public Boards findById(Integer id);
 
@@ -19,5 +21,4 @@ public interface BoardsDao {
 
 	public void updateByUsersId(Integer usersId);
 
-	public PagingDto paging(@Param("page") Integer page, @Param("keyword") String keyword);
 }

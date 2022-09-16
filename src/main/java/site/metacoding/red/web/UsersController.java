@@ -46,15 +46,15 @@ public class UsersController {
 	@GetMapping("/loginForm")
 	public String loginForm(Model model, HttpServletRequest request) { // 쿠키 배워보기
 		Cookie[] cookies = request.getCookies();
-		for(Cookie cookie : cookies) {
-			if(cookie.getName().equals("username")) {
-				model.addAttribute(cookie.getName(),cookie.getValue());
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("username")) {
+				model.addAttribute(cookie.getName(), cookie.getValue());
 			}
-		System.out.println("==========");
-		System.out.println(cookie.getName());
-		System.out.println(cookie.getValue());
-		System.out.println("=========="); 
-		
+			System.out.println("==========");
+			System.out.println(cookie.getName());
+			System.out.println(cookie.getValue());
+			System.out.println("==========");
+
 		}
 		return "users/loginForm";
 	}
@@ -70,18 +70,19 @@ public class UsersController {
 		System.out.println("=========");
 		System.out.println(loginDto.isRemember());
 		System.out.println("=========");
-		
-		if(loginDto.isRemember()) {
+
+		if (loginDto.isRemember()) {
 			Cookie cookie = new Cookie("username", loginDto.getUsername());
-			cookie.setMaxAge(60*60*24);
+			cookie.setMaxAge(60 * 60 * 24);
 			response.addCookie(cookie);
-			//response.setHeader("Set-Cookie", "username="+loginDto.getUsername()+ ";HttpOnly");
-		}else {
+			// response.setHeader("Set-Cookie", "username="+loginDto.getUsername()+
+			// ";HttpOnly");
+		} else {
 			Cookie cookie = new Cookie("username", null);
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
-		
+
 		Users principal = usersService.로그인(loginDto);
 
 		if (principal == null) {
@@ -102,12 +103,12 @@ public class UsersController {
 	@PutMapping("/users/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Users usersPS = usersService.회원수정(id, updateDto);
-		session.setAttribute("principal", usersPS);	// 세션 동기화
+		session.setAttribute("principal", usersPS); // 세션 동기화
 		return new CMRespDto<>(1, "회원수정 성공", null);
 	}
 
 	@DeleteMapping("/users/{id}")
-	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
+	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id, HttpServletResponse response) {
 		usersService.회원탈퇴(id);
 		session.invalidate();
 		return new CMRespDto<>(1, "회원탈퇴성공", null);

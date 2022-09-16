@@ -4,12 +4,8 @@ $("#btnJoin").click(() => {
 	join();
 });
 
-
-// 유저네임 중복 체크
 $("#btnUsernameSameCheck").click(() => {   // 리스너. / 행위는 람다식으로 쓰는 것이 편하다   (자바스크립트는 =>, 자바는 ->)
-	// 0. 통신 오브젝트 생성(->json 스트링으로 바로 바꾸기 위해서). (Get 요청은 body가 없다.)
 	checkUsername();
-	// 1. 사용자가 적은 입력값 username 값을 가져오기 -> 가져오려면 id를 알아야 한다.
 });
 
 $("#btnLogin").click(() => {
@@ -104,7 +100,7 @@ function login() {
 		}
 	});
 }
- 
+
 function resign() {
 	let id = $("#id").val();
 
