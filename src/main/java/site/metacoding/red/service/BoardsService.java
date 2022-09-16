@@ -25,9 +25,9 @@ public class BoardsService {
 		}
 		int startNum = page * 3;
 
-		System.out.println("==========");
-		System.out.println("keyword : " + keyword);
-		System.out.println("==========");
+//		System.out.println("==========");
+//		System.out.println("keyword : " + keyword);
+//		System.out.println("==========");
 
 		List<MainDto> boardsList = boardsDao.findAll(startNum, keyword);
 		PagingDto pagingDto = boardsDao.paging(page, keyword);

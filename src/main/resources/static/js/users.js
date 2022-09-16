@@ -47,7 +47,7 @@ function join() {
 		}
 	}).done((res) => {
 		if (res.code == 1) {
-			//console.log(res);
+			console.log(res);
 			location.href = "/loginForm";
 		}
 	});
@@ -77,11 +77,18 @@ function checkUsername() {
 	});
 }
 
+// remember 이 값이 뭔지 테스트 하는 코드 
+//function loginTest(){
+//	let remember = $("#remember").prop("checked");
+//	console.log(remember);
+//}
+
 function login() {
-	alert("login 함수 실행됨");
+	// alert("login 함수 실행됨");
 	let data = {
 		username: $("#username").val(),
-		password: $("#password").val()
+		password: $("#password").val(),
+		remember: $("#remember").prop("checked")
 	};
 
 	$.ajax("/login", {
@@ -94,12 +101,10 @@ function login() {
 	}).done((res) => {
 		if (res.code == 1) {
 			location.href = "/";
-		} else {
-			alert("로그인 실패, 아이디 패스워드를 확인해주세요");
 		}
 	});
 }
-
+ 
 function resign() {
 	let id = $("#id").val();
 
