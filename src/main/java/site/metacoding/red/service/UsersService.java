@@ -26,7 +26,7 @@ public class UsersService {
 	public Users 로그인(LoginDto loginDto) {
 		Users usersPS = usersDao.findByUsername(loginDto.getUsername());
 
-		if(usersPS ==null) {
+		if(usersPS == null) {
 			return null;
 		}
 		

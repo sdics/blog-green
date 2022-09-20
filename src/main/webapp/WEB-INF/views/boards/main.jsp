@@ -8,7 +8,7 @@
 		<div style="width: 300px">
 			<form class="d-flex" method="get" action="/">
 				<input class="form-control me-2" type="text" placeholder="Search" name="keyword">
-				<button class="btn btn-primary" type="submit" name ="keyword">Search</button>
+				<button class="btn btn-primary" type="submit">Search</button>
 			</form>
 		</div>
 	</div>
@@ -47,3 +47,4 @@
 </div>
 
 <%@ include file="../layout/footer.jsp"%>
+

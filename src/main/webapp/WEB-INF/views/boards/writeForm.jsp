@@ -13,41 +13,40 @@
 		<button id="btnSave" type="button" class="btn btn-primary">글쓰기완료</button>
 	</form>
 </div>
+
 <script>
 	$("#btnSave").click(()=>{
 		save();
+		//saveTest();
 	});
 	
 
-	
 	function save(){
-		// 0. 통신 오브젝트 생성
 		let data = {
-			title: $("#title").val(),
-			content: $("#content").val(),
-		};
+				title: $("#title").val(),
+				content: $("#content").val()
+			};
 
-		$.ajax("/boards", {
-			type: "POST",
-			dataType: "json",
-			data: JSON.stringify(data),
-			headers: {
-				"Content-Type": "application/json"   //json 타입 컨텐트 타입 날릴꺼야!
-			}
-		}).done((res) => {
-			if (res.code == 1) {
-				console.log(res);
-				location.href = "/";
-			}
-		});
+			$.ajax("/boards", {
+				type: "POST",
+				dataType: "json", // 응답 데이터
+				data: JSON.stringify(data), // http body에 들고갈 요청 데이터
+				headers: { // http header에 들고갈 요청 데이터
+					"Content-Type": "application/json"
+				}
+			}).done((res) => {
+				if (res.code == 1) {
+					location.href = "/";
+				}
+			});
 	}
+	
 </script>
 
 <script>
 	$('#content').summernote({
-    height: 400
-    });
+		height : 400
+	});
 </script>
-
 <%@ include file="../layout/footer.jsp"%>
 

@@ -22,7 +22,7 @@ public class Boards {
 		this.content = content;
 		this.usersId = usersId;
 	}
-
+	
 	public void update(UpdateDto updateDto) {
 		this.title = updateDto.getTitle();
 		this.content = updateDto.getContent();

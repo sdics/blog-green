@@ -26,7 +26,9 @@
 				title: $("#title").val(),
 				content: $("#content").val()
 			};
+
 			let id = $("#id").val();
+
 			$.ajax("/boards/" + id, {
 				type: "PUT",
 				dataType: "json", // 응답 데이터
@@ -52,3 +54,4 @@
 	});
 </script>
 <%@ include file="../layout/footer.jsp"%>
+
