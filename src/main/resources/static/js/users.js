@@ -148,7 +148,7 @@ function update() {
 }
 function koreanCheck() {   // 회원가입 시 한글 있는지 체크
 	let username = $("#username").val();
-	let korRule = /^[가-힣]*$/;
+	var korRule = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 	if (korRule.test(username)) {
 		return true;
 	} else {
