@@ -5,26 +5,29 @@
 <input id="page" type="hidden" value="${sessionScope.referer.page}">
 <input id="keyword" type="hidden" value="${sessionScope.referer.keyword}">
 <div class="container">
-	<br /> <br /> 
-	<input id="id" type="hidden" value="${detailDto.id}" />
-	<input id="lovesId" type="hidden" value="${detailDto.lovesId}" />
+	<br /> <br /> <input id="id" type="hidden" value="${detailDto.id}" /> <input id="lovesId"
+		type="hidden" value="${detailDto.lovesId}" />
 
-	<div class="d-flex">
+	<c:if test="${!empty sessionScope.principal}">
+		<div class="d-flex">
 
-		<a href="/boards/${detailDto.id}/updateForm" class="btn btn-warning">수정하러가기</a>
+			<a href="/s/boards/${detailDto.id}/updateForm" class="btn btn-warning">수정하러가기</a>
 
-		<form>
-			<button id="btnDelete" class="btn btn-danger">삭제</button>
-		</form>
-	</div>
+			<form>
+				<button id="btnDelete" class="btn btn-danger">삭제</button>
+			</form>
+		</div>
+	</c:if>
+
+
 
 
 	<br />
 	<div class="d-flex justify-content-between">
 		<h3>${detailDto.title}</h3>
 		<div>
-			좋아요수 : <span id="countLove">${detailDto.loveCount}</span> 
-			<i id="iconLove" class='${detailDto.loved ? "fa-solid" : "fa-regular"} fa-heart my_pointer my_red'></i>
+			좋아요수 : <span id="countLove">${detailDto.loveCount}</span> <i id="iconLove"
+				class='${detailDto.loved ? "fa-solid" : "fa-regular"} fa-heart my_pointer my_red'></i>
 		</div>
 	</div>
 	<hr />
@@ -33,7 +36,6 @@
 </div>
 
 <script>
-
 	$("#btnDelete").click(()=>{
 		deleteById();
 	});
@@ -44,7 +46,7 @@
 		let page = $("#page").val();
 		let keyword = $("#keyword").val();
 		
-		$.ajax("/boards/" + id, {
+		$.ajax("/s/api/boards/" + id, {
 			type: "DELETE",
 			dataType: "json" // 응답 데이터
 		}).done((res) => {
@@ -57,7 +59,6 @@
 		});
 	}
 	
-
 	// 하트 아이콘을 클릭했을때의 로직
 	$("#iconLove").click(()=>{
 		let isLovedState = $("#iconLove").hasClass("fa-solid");
@@ -72,17 +73,18 @@
 	function insertLove(){
 		let id = $("#id").val();
 		
-		$.ajax("/boards/"+id+"/loves", {
+		$.ajax("/s/api/boards/"+id+"/loves", {
 			type: "POST",
 			dataType: "json"
 		}).done((res) => {
 			if (res.code == 1) {
+				//location.reload();
 				renderLoves();
 				// 좋아요 수 1 증가
 				let count = $("#countLove").text();
 				$("#countLove").text(Number(count)+1);
 				$("#lovesId").val(res.data.id);
-				console.log(res);
+				//console.log(res);
 			}else{
 				alert("좋아요 실패했습니다");
 			}
@@ -94,7 +96,7 @@
 		let id = $("#id").val();
 		let lovesId = $("#lovesId").val();
 		
-		$.ajax("/boards/"+id+"/loves/"+lovesId, {
+		$.ajax("/s/api/boards/"+id+"/loves/"+lovesId, {
 			type: "DELETE",
 			dataType: "json"
 		}).done((res) => {
@@ -119,8 +121,6 @@
 		$("#iconLove").removeClass("fa-solid");
 		$("#iconLove").addClass("fa-regular");
 	}
-
 </script>
 
 <%@ include file="../layout/footer.jsp"%>
-

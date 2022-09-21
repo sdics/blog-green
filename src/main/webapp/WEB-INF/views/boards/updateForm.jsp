@@ -4,44 +4,37 @@
 
 <div class="container">
 	<form>
-		<input id="id" type="hidden" value="${boards.id}" />
 		<div class="mb-3 mt-3">
-			<input id="title" type="text" class="form-control" placeholder="Enter title"
-				value="${boards.title}">
+			<input id="title" type="text" class="form-control" placeholder="Enter title">
 		</div>
 		<div class="mb-3">
-			<textarea id="content" class="form-control" rows="8">${boards.content}</textarea>
+			<textarea id="content" class="form-control" rows="8"></textarea>
 		</div>
-		<button id="btnUpdate" type="button" class="btn btn-primary">수정완료</button>
+		<button id="btnSave" type="button" class="btn btn-primary">글쓰기완료</button>
 	</form>
 </div>
 
 <script>
-	$("#btnUpdate").click(()=>{
-		update();
+	$("#btnSave").click(()=>{
+		save();
+		//saveTest();
 	});
 	
-	function update(){
+	function save(){
 		let data = {
 				title: $("#title").val(),
 				content: $("#content").val()
 			};
-
-			let id = $("#id").val();
-
-			$.ajax("/boards/" + id, {
-				type: "PUT",
+			$.ajax("/s/api/boards", {
+				type: "POST",
 				dataType: "json", // 응답 데이터
 				data: JSON.stringify(data), // http body에 들고갈 요청 데이터
 				headers: { // http header에 들고갈 요청 데이터
-					"Content-Type": "application/json; charset=utf-8"
+					"Content-Type": "application/json"
 				}
 			}).done((res) => {
 				if (res.code == 1) {
-					alert("게시글 수정 완료");
-					location.href="/boards/"+id;
-				} else {
-					alert("업데이트에 실패하였습니다");
+					location.href = "/";
 				}
 			});
 	}
@@ -54,4 +47,3 @@
 	});
 </script>
 <%@ include file="../layout/footer.jsp"%>
-
