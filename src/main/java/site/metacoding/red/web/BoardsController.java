@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.loves.Loves;
 import site.metacoding.red.domain.users.Users;
+import site.metacoding.red.handler.ex.MyApiException;
+import site.metacoding.red.handler.ex.MyException;
 import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
@@ -32,29 +34,28 @@ public class BoardsController {
 	private final HttpSession session;
 	private final BoardsService boardsService;
 
-	
 	/***
 	 * 
-	 *     인증과 권한 체크는 지금 하지 마세요!!
+	 * 인증과 권한 체크는 지금 하지 마세요!!
 	 */
-	
+
 	// 인증 필요
 	// 어떤 게시글을 누가 좋아하는지 (boardsId, usersId)
 	@PostMapping("/s/api/boards/{id}/loves")
-	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id){
+	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
 		Loves loves = new Loves(principal.getId(), id);
 		boardsService.좋아요(loves);
 		return new CMRespDto<>(1, "좋아요 성공", loves);
 	}
-	
+
 	// 인증 필요
 	@DeleteMapping("/s/api/boards/{id}/loves/{lovesId}")
-	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable Integer id, @PathVariable Integer lovesId){
+	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable Integer id, @PathVariable Integer lovesId) {
 		boardsService.좋아요취소(lovesId);
 		return new CMRespDto<>(1, "좋아요 취소 성공", null);
 	}
-	
+
 	// 인증 필요
 	@PutMapping("/s/api/boards/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
@@ -89,7 +90,7 @@ public class BoardsController {
 	public String getBoardList(Model model, Integer page, String keyword) { // 0 -> 0, 1->10, 2->20
 		PagingDto pagingDto = boardsService.게시글목록보기(page, keyword);
 		model.addAttribute("pagingDto", pagingDto);
-		
+
 		Map<String, Object> referer = new HashMap<>();
 		referer.put("page", pagingDto.getCurrentPage());
 		referer.put("keyword", pagingDto.getKeyword());
@@ -100,12 +101,12 @@ public class BoardsController {
 	@GetMapping("/boards/{id}")
 	public String getBoardDetail(@PathVariable Integer id, Model model) {
 		Users principal = (Users) session.getAttribute("principal");
-		if(principal == null) {
+		if (principal == null) {
 			model.addAttribute("detailDto", boardsService.게시글상세보기(id, null));
-		}else {
+		} else {
 			model.addAttribute("detailDto", boardsService.게시글상세보기(id, principal.getId()));
 		}
-		
+
 		return "boards/detail";
 	}
 

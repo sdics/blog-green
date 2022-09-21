@@ -27,6 +27,16 @@ function join() {
 		return;
 	}
 
+	if (koreanCheck() == true) {
+		alert("유저네임에 한글이 있으면 안됩니다.");
+		return;
+	}
+
+	if (EnglishCheck() == true) {
+		alert("유저네임에 최소 1개의 대문자가 있어야합니다.");
+		 return;
+	}
+
 	let data = {
 		username: $("#username").val(),
 		password: $("#password").val(),
@@ -43,7 +53,11 @@ function join() {
 	}).done((res) => {
 		if (res.code == 1) {
 			location.href = "/loginForm";
+		} else {
+			alert(res.msg);
+			history.back();
 		}
+
 	});
 }
 
@@ -129,5 +143,36 @@ function update() {
 		} else {
 			alert("업데이트에 실패하였습니다");
 		}
-	}); 
+	});
+
+}
+function koreanCheck() {   // 회원가입 시 한글 있는지 체크
+	let username = $("#username").val();
+	let korRule = /^[가-힣]*$/;
+	if (korRule.test(username)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function EnglishCheck() {
+	let username = $("#username").val();
+	let EnglishRule = /(?=.*?[A-Z])/;
+	if (EnglishRule.test(username)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function PasswordSameCheck() {
+	let password = $("#password").val();
+	//		let passwordSame = $("#passwordSame").val();
+	let passwordRule = /(==passwordSame)/;
+	if (password == passwordSame) {
+		return true;
+	} else {
+		return false;
+	}
 }
